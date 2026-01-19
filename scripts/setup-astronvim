@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Backup existing nvim config
+backup_nvim() {
+    if [ -d "$HOME/.config/nvim" ]; then
+        echo "Backing up existing nvim config..."
+        mv ~/.config/nvim ~/.config/nvim.bak
+    fi
+
+    if [ -d "$HOME/.local/share/nvim" ]; then
+        mv ~/.local/share/nvim ~/.local/share/nvim.bak
+    fi
+
+    if [ -d "$HOME/.local/state/nvim" ]; then
+        mv ~/.local/state/nvim ~/.local/state/nvim.bak
+    fi
+
+    if [ -d "$HOME/.cache/nvim" ]; then
+        mv ~/.cache/nvim ~/.cache/nvim.bak
+    fi
+}
+
+# Clone AstroNvim template
+install_astronvim() {
+    echo "Cloning AstroNvim..."
+    git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
+
+    # Remove template's git connection
+    rm -rf ~/.config/nvim/.git
+}
+
+# Restore community.lua
+restore_community_lua() {
+    if [ -f "$HOME/.local/share/chezmoi/home/.config/nvim/lua/community.lua" ]; then
+        echo "Restoring community.lua..."
+        mkdir -p ~/.config/nvim/lua
+        cp "$HOME/.local/share/chezmoi/home/.config/nvim/lua/community.lua" ~/.config/nvim/lua/community.lua
+    fi
+}
+
+# Main
+backup_nvim
+install_astronvim
+restore_community_lua
+
+echo "AstroNvim installation complete!"
+echo "Run 'nvim' to start."
