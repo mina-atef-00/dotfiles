@@ -1,15 +1,5 @@
 spawn-at-startup "bash" "-c" "dbus-update-activation-environment --systemd --all"
-spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 prefer-no-csd
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
-
-environment {
-    XDG_CURRENT_DESKTOP "niri"
-    QT_QPA_PLATFORM "wayland"
-    QT_QPA_PLATFORMTHEME "gtk3"
-    QT_QPA_PLATFORMTHEME_QT6 "gtk3"
-    ELECTRON_OZONE_PLATFORM_HINT "auto"
-}
 
 input {
     focus-follows-mouse max-scroll-amount="5%"
@@ -151,21 +141,13 @@ binds {
     Mod+3 { focus-workspace 3; }
     Mod+4 { focus-workspace 4; }
     Mod+5 { focus-workspace 5; }
-    Mod+6 { focus-workspace 6; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
-    Mod+0 { focus-workspace 10; }
+
     Mod+Shift+1 { move-column-to-workspace 1; }
     Mod+Shift+2 { move-column-to-workspace 2; }
     Mod+Shift+3 { move-column-to-workspace 3; }
     Mod+Shift+4 { move-column-to-workspace 4; }
     Mod+Shift+5 { move-column-to-workspace 5; }
-    Mod+Shift+6 { move-column-to-workspace 6; }
-    Mod+Shift+7 { move-column-to-workspace 7; }
-    Mod+Shift+8 { move-column-to-workspace 8; }
-    Mod+Shift+9 { move-column-to-workspace 9; }
-    Mod+Shift+0 { move-column-to-workspace 10; }
+ 
 
     // -- Focus Workspaces (Up/Down) --
     Mod+Ctrl+Up   { focus-workspace-up; }
@@ -207,13 +189,12 @@ binds {
     Mod+Ctrl+Shift+WheelScrollUp   { move-column-to-workspace-up; }
 
     // -- Apps & Scripts --
-    Mod+Shift+E { spawn "kitty" "-e" "yazi"; }
+    Mod+Shift+E { spawn "nautilus"; }
     Mod+Shift+S { spawn "steam"; }
     Mod+Shift+T { spawn "kitty" "-e" "btm"; }
     Mod+Shift+Q { spawn "kitty" "-e" "qwen"; }
     Mod+Shift+D { spawn "vesktop"; }
-    Mod+Shift+N { spawn "kitty" "-e" "nvim"; }
-    Mod+Shift+C { spawn "kitty" "-e" "nvim ~/nix-mina"; }
+    Mod+Shift+N { spawn "zed"; }
 
     // -- DMS Integration --
     Mod+Ctrl+V { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
@@ -222,7 +203,8 @@ binds {
     Mod+I { spawn "dms" "ipc" "call" "settings" "toggle"; }
     Mod+Escape { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
     Mod+L { spawn "dms" "ipc" "call" "lock" "lock"; }
-    Mod+Print { spawn "dms" "ipc" "call" "niri" "screenshot"; }
+    Print { spawn_sh "dms screenshot --stdout --no-file | satty -f - -o - | dms cl copy -t image/png"; }
+    Mod+Print { spawn "dms" "color" "pick" "-a"; }
 
     // -- Media Keys --
     XF86AudioRaiseVolume { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
@@ -235,6 +217,7 @@ binds {
     XF86AudioNext        { spawn "dms" "ipc" "call" "mpris" "next"; }
     XF86MonBrightnessUp  { spawn "dms" "ipc" "call" "brightness" "increment" "5"; }
     XF86MonBrightnessDown { spawn "dms" "ipc" "call" "brightness" "decrement" "5"; }
+
     Mod+F1 { spawn "dms" "ipc" "call" "audio" "increment" "5"; }
     Mod+F2 { spawn "dms" "ipc" "call" "audio" "decrement" "5"; }
     Mod+F3 { spawn "dms" "ipc" "call" "audio" "mute"; }
@@ -248,3 +231,9 @@ binds {
 
     Mod+Shift+Slash { show-hotkey-overlay; }
 }
+
+include "dms/colors.kdl"
+include "dms/layout.kdl"
+include "dms/alttab.kdl"
+include "dms/binds.kdl"
+
