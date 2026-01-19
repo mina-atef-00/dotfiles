@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=== DMS Setup Script ==="
+
+# Enable COPR repository
+echo "Enabling DMS COPR repository..."
+sudo dnf copr enable avengemedia/dms -y
+
+# Install DMS and dependencies
+echo "Installing DMS and dependencies..."
+sudo dnf install -y \
+    dms \
+    quickshell \
+    cliphist \
+    matugen \
+    adw-gtk3-theme
+
+# Create niri/dms directory structure
+echo "Creating niri/dms directory structure..."
+mkdir -p ~/.config/niri/dms
+touch ~/.config/niri/dms/colors.kdl
+touch ~/.config/niri/dms/layout.kdl
+touch ~/.config/niri/dms/alttab.kdl
+touch ~/.config/niri/dms/binds.kdl
+
+# Enable and start systemd service
+echo "Enabling DMS systemd service..."
+systemctl --user enable --now dms
+
+# Bind to niri session (only start under niri)
+echo "Binding DMS to niri session..."
+systemctl --user add-wants niri.service dms
+
+echo ""
+echo "=== DMS Setup Complete ==="
+echo "DMS has been installed and configured."
+echo "Keybindings:"
+echo "  Mod+Space - Spotlight (app launcher)"
+echo "  Mod+V - Clipboard history"
+echo "  Mod+A - Notifications"
+echo "  Mod+S - Settings"
+echo "  Mod+Comma - DMS Settings"
+echo "  Mod+L - Lock screen"
+echo ""
+echo "Run 'dms restart' to apply changes."
+echo "Run 'journalctl --user -u dms -f' to view logs."
