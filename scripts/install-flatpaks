@@ -28,6 +28,7 @@ install_flatpaks() {
         "io.ente.auth"
         "md.obsidian.Obsidian"
         "dev.vencord.Vesktop"
+        "com.github.Matoking.protontricks"
     )
 
     for flatpak in "${flatpaks[@]}"; do
