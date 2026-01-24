@@ -20,7 +20,6 @@ install_flatpaks() {
         "com.obsproject.Studio"
         "org.localsend.localsend_app"
         "com.valvesoftware.Steam"
-        "com.github.Matoking.protontricks"
         "dev.zed.Zed"
         "app.zen_browser.zen"
         "org.torproject.torbrowser-launcher"
