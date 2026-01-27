@@ -1,6 +1,7 @@
 [user]
     name = Mina Atef
     email = 52796958+mina-atef-00@users.noreply.github.com
+	signingkey = F981A03B1E642873
 
 [init]
     defaultBranch = main
@@ -28,3 +29,9 @@
 
 [log]
     decorate = auto
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
